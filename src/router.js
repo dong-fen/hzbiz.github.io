@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import HelloWorld from './components/HelloWorld.vue'
 import Index from './components/Index.vue'
 import Login from './components/Login.vue'
 import Admin from './components/admin/Admin.vue'
@@ -11,6 +12,14 @@ import AdminFaction from './components/admin/AdminFaction.vue'
 Vue.use(VueRouter)
 
 const routes = [
+    {
+        path:'/HelloWorld',
+        name:'HelloWorld',
+        component:HelloWorld,
+        meta:{
+            title:"测试页面"
+        }
+    },
     {
         path:'/',
         name:'Index',
