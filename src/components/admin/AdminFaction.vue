@@ -22,21 +22,23 @@
                   </el-form-item>
                   <el-form-item label="掌门设置" prop="classUserID">
                     <el-select v-model="faction.classUserID" placeholder="请选择门派负责人">
-                      <el-option label="王昕" value="王昕"></el-option>
-                      <el-option label="王雪晶" value="王雪晶"></el-option>
+                      <el-option label="王昕" value="1"></el-option>
+                      <el-option label="王雪晶" value="2"></el-option>
+                      <el-option label="罗学成" value="3"></el-option>
+                      <el-option label="刑黎" value="4"></el-option>
+                      <el-option label="张堃" value="5"></el-option>
                     </el-select>
                   </el-form-item>
-                  <el-form-item label="创建时间" required>
+                  <el-form-item label="创建时间" prop="classAddTime" required>
                     <el-col :span="11">
-                      <el-form-item prop="date">
-                        <el-date-picker type="date" placeholder="选择日期" v-model="faction.date" style="width: 100%;"></el-date-picker>
-                      </el-form-item>
-                    </el-col>
-                    <el-col class="line" :span="2" style="text-align:center">-</el-col>
-                    <el-col :span="11">
-                      <el-form-item prop="time">
-                        <el-time-picker type="fixed-time" placeholder="选择时间" v-model="faction.time" style="width: 100%;"></el-time-picker>
-                      </el-form-item>
+                      <el-date-picker
+                        v-model="faction.classAddTime"
+                        type="datetime"
+                        placeholder="选择日期时间"
+                        align="right"
+                        :picker-options="pickerOptions1"
+                        value-format="yyyy-MM-dd HH:mm:ss">
+                      </el-date-picker>
                     </el-col>
                   </el-form-item>
                   <el-form-item label="是否开放" prop="isClassOpen">
@@ -44,10 +46,10 @@
                   </el-form-item>
                   <el-form-item label="门派性质" prop="classNature">
                     <el-radio-group v-model="faction.classNature">
-                      <el-radio label="魔教" name="type"></el-radio>
-                      <el-radio label="正教"  name="type"></el-radio>
-                      <el-radio label="六扇门" name="type"></el-radio>
-                      <el-radio label="锦衣卫" name="type"></el-radio>
+                      <el-radio label="魔教" value="1" name="type"></el-radio>
+                      <el-radio label="正教" value="2"  name="type"></el-radio>
+                      <el-radio label="六扇门" value="3" name="type"></el-radio>
+                      <el-radio label="锦衣卫" value="4" name="type"></el-radio>
                     </el-radio-group>
                   </el-form-item>
                   <el-form-item label="门派介绍" prop="classInfo">
@@ -77,12 +79,33 @@ export default {
     return {
         faction: {
           className: '',
-          classUserID: '',
-          date: '',
-          time: '',
+          classUserID: "",
+          classAddTime: '',
           isClassOpen: true,
           classNature: "",
           classInfo: ''
+        },
+        pickerOptions1: {
+          shortcuts: [{
+            text: '今天',
+            onClick(picker) {
+              picker.$emit('pick', new Date());
+            }
+          }, {
+            text: '昨天',
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24);
+              picker.$emit('pick', date);
+            }
+          }, {
+            text: '一周前',
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit('pick', date);
+            }
+          }]
         },
         rules: {
           className: [
@@ -92,11 +115,8 @@ export default {
           classUserID: [
             { required: true, message: '请选择门派掌门人', trigger: 'change' }
           ],
-          date: [
-            { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
-          ],
-          time: [
-            { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
+          classAddTime: [
+            { type: 'string', required: true, message: '请选择日期', trigger: 'change' }
           ],
           classNature: [
             {required: true, message: '请选择门派性质', trigger: 'change' }
@@ -108,6 +128,18 @@ export default {
       };
   },
   methods:{
+   success(val) {
+        this.$message({
+          message: '恭喜你，'+val,
+          type: 'success'
+        });
+      },
+    error(val) {
+        this.$message({
+          message: '警告哦，'+val,
+          type: 'warning'
+        });
+      },
      submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
@@ -116,13 +148,19 @@ export default {
                 formData.append('send',true)
                 formData.append('className',this.faction.className)
                 formData.append('classUserID',this.faction.classUserID)
-                formData.append('classAddTime',this.faction.date1+" "+this.faction.date2)
+                formData.append('classAddTime',this.faction.classAddTime)
+                formData.append('isClassOpen',this.faction.isClassOpen)
                 formData.append('classNature',this.faction.classNature)
                 formData.append('classInfo',this.faction.classInfo)
 
                 this.axios.post('http://t.hzbiz.net/static/api/FactionAdd.php',formData)
                 .then((res)=>{
-                    console.log(res)
+                      let data = res.data
+                      if(data.vaild){
+                          this.success(data.message)
+                      }else{
+                          this.error(data.message)
+                      }
                 })
                 .catch(err=>{
                   console.log(err)
@@ -174,3 +212,5 @@ export default {
     background-color: #f9fafc;
   }
 </style>
+
+
