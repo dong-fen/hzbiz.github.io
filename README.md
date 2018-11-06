@@ -24,3 +24,9 @@ npm run test
 ```
 npm run lint
 ```
+### git强制覆盖：
+git fetch --all
+git reset --hard origin/master
+git pull
+### git强制覆盖本地命令（单条执行）：
+git fetch --all && git reset --hard origin/master && git pull
