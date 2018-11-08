@@ -53,7 +53,7 @@ if ( isset( $_POST[ 'send' ] ) && $_POST[ 'send' ] == true ) {
     
   if (isset($_POST['isClassOpen']) && $_POST['isClassOpen']!="") {
     $isClassOpen = $_POST['isClassOpen'];
-    if($isClassOpen==true){
+    if($isClassOpen=="true"){
       $isClassOpen = 1;
     }else{
       $isClassOpen = 0;
@@ -67,10 +67,10 @@ if ( isset( $_POST[ 'send' ] ) && $_POST[ 'send' ] == true ) {
 
       if(isset($_POST['id']) && is_numeric($_POST['id']) && $_POST['id']!=""){
          $id = $_POST['id'];
-         $sql="UPDATE faction SET className='$className',classInfo='$classInfo',classUserID=$classUserID,classAddTime='$classAddTime',isClassOpen='$isClassOpen',classNature='$classNature' WHERE id=".$id;
+         $sql="UPDATE faction SET className='$className',classInfo='$classInfo',classUserID=$classUserID,classAddTime='$classAddTime',isClassOpen=$isClassOpen,classNature='$classNature' WHERE id=".$id;
          $success  = "用户组修改成功";
       }else{
-       $sql="INSERT INTO faction (className,classInfo,classUserID,classAddTime,isClassOpen,classNature) VALUES ('$className','$classInfo',$classUserID,'$classAddTime','$isClassOpen','$classNature')";
+       $sql="INSERT INTO faction (className,classInfo,classUserID,classAddTime,isClassOpen,classNature) VALUES ('$className','$classInfo',$classUserID,'$classAddTime',$isClassOpen,'$classNature')";
        $success  = "用户组添加成功";
     }
 

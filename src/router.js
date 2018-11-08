@@ -9,8 +9,9 @@ import AdminSystem from './components/admin/AdminSystem.vue'
 import AdminRoot from './components/admin/AdminRoot.vue'
 import AdminUser from './components/admin/AdminUser.vue'
 import AdminFaction from './components/admin/AdminFaction.vue'
+import AdminFactionList from './components/admin/AdminFactionList.vue'
+import AdminFactionEdit from './components/admin/AdminFactionEdit.vue'
 Vue.use(VueRouter)
-
 const routes = [
     {
         path:'/HelloWorld',
@@ -77,6 +78,20 @@ const routes = [
         {
             path: '/Admin/AdminFaction',
             component: AdminFaction,
+            meta:{
+                title:"门派注册"
+            },
+        },
+        {
+            path: '/Admin/AdminFactionEdit/:id',
+            component: AdminFactionEdit,
+            meta:{
+                title:"门派信息编辑"
+            },
+        },
+        {
+            path: '/Admin/AdminFactionList',
+            component: AdminFactionList,
             meta:{
                 title:"门派注册管理"
             },

@@ -30,22 +30,11 @@
        // );
    }
 
-
-   function api_jsonp_encode($json)
-   {
-       if (!empty($_GET['callbak'])) {
-           return $_GET['callbak'] . '(' . $json . ')'; // jsonp
-       }
-       return $json; // json
-   }
-
-
-
    $vaild = true;
    $message = '';
 
    if(isset($_GET['id']) && is_numeric($_GET['id']) && $_GET['id']!=""){
-    $sql="SELECT * FROM faction WHERE id=".$_GET['id'];
+        $sql="SELECT * FROM faction WHERE id=".$_GET['id'];
     }else{
         $sql="SELECT * FROM faction";
     }
@@ -67,6 +56,10 @@ if(isset($_GET['callback'])){
     echo $callback.'('.json_encode(array('vaild' => $vaild,'message' =>$message),JSON_UNESCAPED_UNICODE).')';
 }
 
+
+echo json_encode(
+    array('vaild' => $vaild,'message' =>$message),JSON_UNESCAPED_UNICODE
+);
 
 $conn->close();
 
