@@ -51,6 +51,7 @@
                       <el-radio label="正教" value="2"  name="type"></el-radio>
                       <el-radio label="六扇门" value="3" name="type"></el-radio>
                       <el-radio label="锦衣卫" value="4" name="type"></el-radio>
+                      <el-radio label="东厂" value="5" name="type"></el-radio>
                     </el-radio-group>
                   </el-form-item>
                   <el-form-item label="门派介绍" prop="classInfo">

@@ -170,4 +170,5 @@ export default {
   margin: 25px;
   border-radius: 5px;
 }
+
 </style>
