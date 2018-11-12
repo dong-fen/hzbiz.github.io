@@ -57,6 +57,7 @@ export default {
             {id:4,title:"掌门人管理",path:"/Admin/AdminRoot",parent_id:3},
             {id:5,title:"门派成员管理",path:"/Admin/AdminUser",parent_id:3},
             {id:9,title:"门派注册管理",path:"/Admin/AdminFaction",parent_id:3},
+            {id:10,title:"门派管理列表",path:"/Admin/AdminFactionList",parent_id:3},
          ]},
          {id:6,title:"信息管理",path:"/Admin/AdminInfo",parent_id:0,icon:"el-icon-document",children:[
             {id:7,title:"信息列表",path:"/Admin/AdminInfo",parent_id:6},
@@ -169,4 +170,5 @@ export default {
   margin: 25px;
   border-radius: 5px;
 }
+
 </style>

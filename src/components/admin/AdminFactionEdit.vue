@@ -6,7 +6,7 @@
           <el-breadcrumb-item :to="{ path: '/Admin' }">
           {{prop.title}}
           </el-breadcrumb-item>
-          <el-breadcrumb-item>门派注册管理</el-breadcrumb-item>
+          <el-breadcrumb-item>门派修改</el-breadcrumb-item>
         </el-breadcrumb>
       </el-col>
     </el-row>
@@ -36,6 +36,7 @@
                         type="datetime"
                         placeholder="选择日期时间"
                         align="right"
+                        readonly
                         :picker-options="pickerOptions1"
                         value-format="yyyy-MM-dd HH:mm:ss">
                       </el-date-picker>
@@ -57,7 +58,7 @@
                     <el-input type="textarea" :rows=6 v-model="faction.classInfo"></el-input>
                   </el-form-item>
                   <el-form-item>
-                    <el-button type="primary" @click="submitForm('faction')">创建门派</el-button>
+                    <el-button type="primary" @click="submitForm('faction')">修改门派</el-button>
                     <el-button @click="resetForm('faction')">重置</el-button>
                   </el-form-item>
                 </el-form>
@@ -71,6 +72,7 @@
 </template>
 
 <script>
+  import jsonp from 'jsonp'
 export default {
   name: 'Adminfaction',
   props:{
@@ -79,10 +81,11 @@ export default {
   data(){
     return {
         faction: {
+          id:this.$route.params.id,
           className: '',
           classUserID: "",
           classAddTime: '',
-          isClassOpen: true,
+          isClassOpen: false,
           classNature: "",
           classInfo: ''
         },
@@ -144,9 +147,10 @@ export default {
      submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-             
+
                 let formData = new FormData();
                 formData.append('send',true)
+                formData.append('id',this.$route.params.id)
                 formData.append('className',this.faction.className)
                 formData.append('classUserID',this.faction.classUserID)
                 formData.append('classAddTime',this.faction.classAddTime)
@@ -159,6 +163,7 @@ export default {
                       let data = res.data
                       if(data.vaild){
                           this.success(data.message)
+                          this.$router.push({ path: '/Admin/AdminFactionList' })
                       }else{
                           this.error(data.message)
                       }
@@ -179,7 +184,18 @@ export default {
       }
   },
   created(){
- 
+         
+            jsonp('http://t.hzbiz.net/static/api/getFaction.php?id='+this.$route.params.id, null, (err, data) => {
+                this.faction = data.message[0];
+                if (this.faction.isClassOpen==1) {
+                   this.faction.isClassOpen = true
+                }else{
+                   this.faction.isClassOpen = false
+                }
+            })
+
+
+
   }
 }
 </script>

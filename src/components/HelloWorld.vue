@@ -5,13 +5,24 @@
 </template>
 
 <script>
+import jsonp from 'jsonp'
 export default {
   name: 'HelloWorld',
   data(){
     return {
-      msg:"HelloWorld"
+      msg:""
     }
-  }
+  },
+  methods:{
+    getList: function () {
+        jsonp("http://t.hzbiz.net/static/api/getFaction.php", null, (err, data) => {
+            console.log(data);
+        })
+      }
+  },
+  created() {
+    this.getList()
+  },
 }
 </script>
 
